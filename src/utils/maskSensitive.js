@@ -1,18 +1,14 @@
-const SENSITIVE_KEYS = /^(password|token|email)$/i;
+const SENSITIVE_KEYS = ['password', 'token', 'email'];
 
-function maskObject(obj) {
-    if (!obj || typeof obj !== 'object') {
-        return {};
-    }
-    const maskedObj = {...obj};
-    for (const key in maskedObj) {
-        if (SENSITIVE_KEYS.test(key)) {
-            maskedObj[key] = '***';
-        } else if (typeof maskedObj[key] === 'object') {
-            maskedObj[key] = maskObject(maskedObj[key]);
+const maskSensitive = (data) => {
+    if (!data) return {};
+    const masked = { ...data };
+    for (const key in masked) {
+        if (SENSITIVE_KEYS.includes(key.toLowerCase())) {
+            masked[key] = '***';
         }
     }
-    return maskedObj;
-}
+    return masked;
+};
 
-module.exports = { maskObject };
+module.exports = maskSensitive;

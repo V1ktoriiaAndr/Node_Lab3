@@ -1,20 +1,20 @@
 const express = require('express');
-const rateLimiter = require('./middleware/rateLimiter');
-const statsCollector = require('./middleware/statsCollector');
-const loansRouter = require('./routes/loans');
-require('./subscribers/statsSubscriber');
+const rateLimiter = require('./src/middleware/rateLimiter');
+const statsCollector = require('./src/middleware/statsCollector');
+require('./src/subscribers/statsSubscriber');
+
+const clientsRouter = require('./src/routes/clients');
+const loansRouter = require('./src/routes/loans');
 
 const app = express();
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(rateLimiter);
 app.use(statsCollector);
-app.use('/api/loans', loansRouter);
 
-app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).json({ error: 'Internal Server Error' });
-});
+app.use('/clients', clientsRouter);
+app.use('/loans', loansRouter);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+module.exports = app;

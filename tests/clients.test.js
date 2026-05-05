@@ -4,39 +4,39 @@ const sql = require('../models/db');
 
 jest.mock('../models/db');
 
-describe('Loans API', () => {
+describe('Clients API', () => {
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    it('GET /loans', async () => {
-        const mockLoans = [{ loan_id: 1, loan_amount: 10000.00 }];
+    it('GET /clients', async () => {
+        const mockClients = [{ client_id: 101, name: 'ФОП Петренко І.О.' }];
         sql.query.mockImplementation((query, callback) => {
-            callback(null, mockLoans);
+            callback(null, mockClients);
         });
 
-        const res = await request(app).get('/loans');
+        const res = await request(app).get('/clients');
         expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual(mockLoans);
+        expect(res.body).toEqual(mockClients);
     });
 
-    it('POST /loans', async () => {
-        const newLoan = { loan_id: 8, loan_amount: 15000, client_id: 101, loan_type_id: 1 };
+    it('POST /clients', async () => {
+        const newClient = { client_id: 106, name: 'ТОВ Нове' };
         sql.query.mockImplementation((query, values, callback) => {
-            callback(null, { insertId: 8 });
+            callback(null, { insertId: 106 });
         });
 
-        const res = await request(app).post('/loans').send(newLoan);
+        const res = await request(app).post('/clients').send(newClient);
         expect(res.statusCode).toEqual(201);
-        expect(res.body).toHaveProperty('loan_id', 8);
+        expect(res.body).toHaveProperty('client_id', 106);
     });
 
-    it('DELETE /loans/:id', async () => {
+    it('DELETE /clients/:id', async () => {
         sql.query.mockImplementation((query, values, callback) => {
             callback(null, { affectedRows: 1 });
         });
 
-        const res = await request(app).delete('/loans/1');
+        const res = await request(app).delete('/clients/101');
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('message', 'Deleted successfully');
     });
