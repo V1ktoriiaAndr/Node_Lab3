@@ -1,8 +1,8 @@
 const request = require('supertest');
-const app = require('../app');
-const sql = require('../models/db');
+const app = require('../../app');
+const sql = require('../../models/db');
 
-jest.mock('../models/db');
+jest.mock('../../models/db');
 
 describe('Clients API', () => {
     afterEach(() => {

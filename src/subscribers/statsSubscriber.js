@@ -4,7 +4,7 @@ const appEmitter = require('../events/emitter');
 
 const logFilePath = path.join(__dirname, '../../stats.json');
 
-appEmitter.on('requestCompleted', (stats) => {
+appEmitter.on('RequestCompleted', (stats) => {
     fs.readFile(logFilePath, (err, data) => {
         let logs = [];
         if (!err && data.length > 0) {
@@ -19,4 +19,4 @@ appEmitter.on('requestCompleted', (stats) => {
     });
 });
 
-require('./statsSubscriber');
+module.exports = appEmitter;

@@ -1,4 +1,4 @@
-const sql = require("../models/db.js");
+const sql = require("../../models/db.js");
 
 exports.findAll = (req, res) => {
     sql.query("SELECT * FROM loans", (err, data) => {

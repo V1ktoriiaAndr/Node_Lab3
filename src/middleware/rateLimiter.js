@@ -36,4 +36,8 @@ const rateLimiter = (req, res, next) => {
     next();
 };
 
+rateLimiter.clearStore = () => {
+    rateLimitMap.clear();
+};
+
 module.exports = rateLimiter;
